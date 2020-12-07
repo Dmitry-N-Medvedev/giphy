@@ -10,7 +10,7 @@
   "type": "module",
   "scripts": {
     "lint": "./node_modules/.bin/eslint ./ --ext .mjs",
-    "test": "cross-env NODE_ENV=test NODE_DEBUG=giphy-js-fetch-api ./node_modules/.bin/c8 ./node_modules/.bin/mocha -- --trace-warnings",
+    "test": "pnpm run lint && cross-env NODE_ENV=test NODE_DEBUG=giphy-js-fetch-api ./node_modules/.bin/c8 ./node_modules/.bin/mocha -- --trace-warnings",
     "coverage": "./node_modules/.bin/c8 report --reporter=text-lcov > ./coverage/coverage.lcov && ./node_modules/.bin/codecov --disable=gcov"
   },
   "author": "Dmitry N. Medvedev <dmitry.medvedev@gmail.com>",
@@ -26,14 +26,15 @@
     "eslint-config-airbnb-base": "^14.2.1",
     "eslint-plugin-chai-friendly": "^0.6.0",
     "eslint-plugin-import": "^2.22.1",
+    "eslint-plugin-node": "^11.1.0",
     "mocha": "^8.2.1",
     "nanoid": "^3.1.20",
     "node-fetch": "^2.6.1"
   },
   "eslintConfig": {
-    "parser": "esprima",
+    "parser": "espree",
     "parserOptions": {
-      "ecmaVersion": 2020,
+      "ecmaVersion": 9,
       "sourceType": "module"
     },
     "extends": [
@@ -45,13 +46,9 @@
       "SharedArrayBuffer": "readonly"
     },
     "env": {
-      "browser": true,
-      "es2020": true,
       "es6": true,
       "mocha": true,
-      "node": true,
-      "serviceworker": true,
-      "worker": true
+      "node": true
     },
     "plugins": [
       "chai-friendly"
