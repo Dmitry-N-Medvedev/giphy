@@ -40,17 +40,16 @@ describe('giphy js-fetch-api', () => {
   });
 
   it('search for dogs', async () => {
+    const limit = 10;
     const searchOpts = Object.freeze({
       ...searchOptions,
       ...{
-        limit: 10,
+        limit,
         type: 'gifs',
       },
     });
     const { data: gifs } = await giphyFetch.search('dogs', searchOpts);
 
-    console.debug(gifs);
-
-    expect(gifs).to.exist;
+    expect(gifs.length).to.equal(10);
   }).timeout(0);
 });
