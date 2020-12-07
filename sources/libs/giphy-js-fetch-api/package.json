@@ -11,7 +11,7 @@
   "scripts": {
     "lint": "./node_modules/.bin/eslint ./ --ext .mjs",
     "test": "cross-env NODE_ENV=test NODE_DEBUG=giphy-js-fetch-api ./node_modules/.bin/c8 ./node_modules/.bin/mocha -- --trace-warnings",
-    "coverage": "./node_modules/.bin/c8 report --reporter=text-lcov > ./coverage/coverage.lcov && ./node_modules/.bin/codecov"
+    "coverage": "./node_modules/.bin/c8 report --reporter=text-lcov > ./coverage/coverage.lcov && ./node_modules/.bin/codecov --disable=gcov"
   },
   "author": "Dmitry N. Medvedev <dmitry.medvedev@gmail.com>",
   "license": "MIT",
