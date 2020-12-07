@@ -1,3 +1,7 @@
+// NOTE: do not remove inspect for now
+// import {
+//   inspect,
+// } from 'util';
 import fetch from 'node-fetch';
 import mocha from 'mocha';
 import chai from 'chai';
@@ -50,6 +54,38 @@ describe('giphy js-fetch-api', () => {
     });
     const { data: gifs } = await giphyFetch.search('dogs', searchOpts);
 
-    expect(gifs.length).to.equal(10);
+    expect(gifs.length).to.equal(limit);
+  }).timeout(0);
+
+  it('should search for dogs and paginate results', async () => {
+    const limit = 10;
+    const numOfPages = 3;
+    const offsets = (new Array(numOfPages)).fill(null).map((_, index) => (index * limit));
+
+    // eslint-disable-next-line no-restricted-syntax
+    for await (const offset of offsets) {
+      const searchOpts = Object.freeze({
+        ...searchOptions,
+        ...{
+          limit,
+          offset,
+          type: 'gifs',
+        },
+      });
+      const {
+        data: gifs,
+      } = await giphyFetch.search('dogs', searchOpts);
+
+      expect(gifs.length).to.equal(limit);
+
+      // NOTE: will need it later
+      // console.debug(inspect(gifs, {
+      //   depth: Infinity,
+      //   colors: true,
+      //   maxArrayLength: Infinity,
+      //   maxStringLength: Infinity,
+      //   breakLength: 160,
+      // }));
+    }
   }).timeout(0);
 });
