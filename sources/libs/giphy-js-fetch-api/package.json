@@ -11,7 +11,7 @@
   "scripts": {
     "lint": "./node_modules/.bin/eslint ./ --ext .mjs",
     "test": "cross-env NODE_ENV=test NODE_DEBUG=LibApi ./node_modules/.bin/c8 ./node_modules/.bin/mocha -- --trace-warnings",
-    "coverage": "./node_modules/.bin/c8 report --reporter=text-lcov --reporter=lcov | ./node_modules/.bin/coveralls"
+    "coverage": "./node_modules/.bin/c8 report --reporter=text-lcov > ./coverage/coverage.lcov && ./node_modules/.bin/codecov"
   },
   "author": "Dmitry N. Medvedev <dmitry.medvedev@gmail.com>",
   "license": "MIT",
@@ -19,6 +19,7 @@
     "@giphy/js-fetch-api": "^2.0.1-alpha.0",
     "c8": "^7.3.5",
     "chai": "^4.2.0",
+    "codecov": "^3.8.1",
     "cross-env": "^7.0.3",
     "eslint": "^7.15.0",
     "eslint-config-airbnb-base": "^14.2.1",

@@ -9,6 +9,7 @@ importers:
       '@giphy/js-fetch-api': 2.0.1-alpha.0
       c8: 7.3.5
       chai: 4.2.0
+      codecov: 3.8.1
       cross-env: 7.0.3
       eslint: 7.15.0
       eslint-config-airbnb-base: 14.2.1_00d09b02c6185f3347dd86516a55f6ae
@@ -20,6 +21,7 @@ importers:
       '@giphy/js-fetch-api': ^2.0.1-alpha.0
       c8: ^7.3.5
       chai: ^4.2.0
+      codecov: ^3.8.1
       cross-env: ^7.0.3
       eslint: ^7.15.0
       eslint-config-airbnb-base: ^14.2.1
