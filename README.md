@@ -1,5 +1,7 @@
 # giphy
 
+[![Build Status](https://travis-ci.com/Dmitry-N-Medvedev/giphy.svg?branch=master)](https://travis-ci.com/Dmitry-N-Medvedev/giphy)
+
 The task is to create a single-page web application that leverages data from the [Giphy API](https://github.com/Giphy/GiphyAPI ).
 
 ## Requirements
