@@ -4,14 +4,19 @@
 
 <style>
 	nav {
+    display: flex;
 		border-bottom: 1px solid rgba(255,62,0,0.1);
 		font-weight: 300;
 		padding: 0 1em;
 	}
 
 	ul {
+    display: flex;
+    flex: 1 0 auto;
+    justify-content: center;
+    align-items: center;
 		margin: 0;
-		padding: 0;
+    padding: 0;
 	}
 
 	/* clearfix */
@@ -55,6 +60,6 @@
 
 		<!-- for the blog link, we're using rel=prefetch so that Sapper prefetches
 		     the blog data when we hover over the link or tap it on a touchscreen -->
-		<li><a rel=prefetch aria-current="{segment === 'blog' ? 'page' : undefined}" href="blog">blog</a></li>
+		<!-- <li><a rel=prefetch aria-current="{segment === 'blog' ? 'page' : undefined}" href="blog">blog</a></li> -->
 	</ul>
 </nav>
