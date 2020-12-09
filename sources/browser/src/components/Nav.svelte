@@ -59,6 +59,10 @@
     min-width: var(--nav-height);
   }
 
+  li:last-of-type {
+    margin-left: 1vw;
+  }
+
   [aria-current] {
     position: relative;
     display: flex;

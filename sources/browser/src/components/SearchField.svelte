@@ -1,45 +1,104 @@
 <script>
   import {
+    fade,
+  } from 'svelte/transition';
+  import {
+    onMount,
     createEventDispatcher,
   } from 'svelte';
 
-  let value;
+  export let searchHint = '';
+
+  let value = '';
+  let showSubmitButton = false;
+  let searchInput = null;
+
+  const inFade = Object.freeze({
+    duration: 75,
+  });
+
+  const outFade = Object.freeze({
+    duration: 150,
+  });
 
   const dispatch = createEventDispatcher();
 
-  $: if (value !== null) {
+  $: if (value.length !== 0) {
     dispatch('value', { value });
   }
+
+  $: showSubmitButton = value.length !== 0;
+
+  onMount(() => {
+    searchInput.focus();
+  });
 </script>
 
 <style>
   div {
+    --height: 6vh;
+    --padding-right: 0.25vw;
+    --submit-button-width: 3.5vw;
+
     display: flex;
     flex-direction: column;
     flex: 1 0 auto;
+
+    position: relative;
   }
   input {
     display: flex;
     flex: 1 0 auto;
 
-    height: 6vh;
+    height: var(--height);
     border: none;
     border-radius: min(0.25vh, 0.25vw);
 
     font-size: min(2vh, 2vw);
-    padding: 0 0.25vw;
+    padding: 0 calc(var(--submit-button-width) + 0.25vw) 0 var(--padding-right);
 
-    border-bottom: 1px solid black;
-    border-bottom-left-radius: 0;
-    border-bottom-right-radius: 0;
+    filter: drop-shadow(0px 0px 3px hsl(0, 0%, 65%));
+
+    font-family: var(--font-family);
+  }
+
+  input:focus {
+    filter: none;
+    outline-offset: -1px;
+  }
+
+  #search-field-button {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: flex-end;
+
+    position: absolute;
+    right: calc(var(--padding-right) / 2);
+    top: calc(var(--height) - (var(--height) - 0.5vh) - 0.25vh);
+
+    width: var(--submit-button-width);
+    height: calc(var(--height) - 0.5vh);
+
+    font-size: min(1vh, 1vw);
+    color: white;
+    background-color: hsl(0, 0%, 18%);
+
+    padding: var(--padding-right);
+    cursor: pointer;
+
+    font-family: system-ui;
   }
 
   label {
-    padding: 0.25vw 0;
+    padding: var(--padding-right) 0;
   }
 </style>
 
 <div>
-  <input id='search-field-input' type='text' bind:value={value} />
-  <label for='search-field-input'>type your terms</label>
+  <input id='search-field-input' type='text' bind:value={value} bind:this={searchInput} autocorrect />
+  {#if showSubmitButton === true}
+    <input id='search-field-button' type='submit' value='return' in:fade={inFade} out:fade={outFade} />
+  {/if}
+  <label for='search-field-input'>{searchHint}</label>
 </div>

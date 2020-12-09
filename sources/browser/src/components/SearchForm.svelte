@@ -13,6 +13,11 @@
 
   let uiChannel = null;
   let searchTerm = null;
+  let searchParameters = {
+    pageSize: null,
+    itemType: null,
+  };
+  let searchHint = 'type in search terms';
 
   const handleClick = () => {
     uiChannel.postMessage(Object.freeze({
@@ -29,6 +34,19 @@
   const handleSearchTerm = ({ detail: { value } }) => {
     searchTerm = value;
   };
+
+  const handleSearchParameters = ({ detail: { pageSize, itemType }}) => {
+    searchParameters = Object.freeze({
+      pageSize,
+      itemType,
+    });
+
+    searchParameters = searchParameters;
+  };
+
+  $: if (Object.values(searchParameters).some((value) => value === null) === false && searchTerm !== null) {
+    searchHint = `show me ${searchParameters.pageSize} ${searchParameters.itemType}s of ${searchTerm}`;
+  }
 
   onMount(() => {
     uiChannel = new BroadcastChannel(BroadcastChannelNames.ui);
@@ -56,7 +74,7 @@
     right: 0;
     bottom: 0;
 
-    background-color: hsla(0, 0%, 0%, 0.459);
+    backdrop-filter: blur(3px);
   }
 
   section > form {
@@ -74,8 +92,7 @@
 
     padding: min(1vh, 1vw);
 
-    background-color: var(--body-background-color);
-    filter: drop-shadow(2px 4px 6px black);
+    background-color: transparent;
   }
 
   .row {
@@ -92,6 +109,9 @@
 
   #search-parameters {
     grid-area: search-parameters;
+    display: flex;
+    flex: 1 0 auto;
+    align-items: stretch;
   }
 </style>
 
@@ -99,10 +119,10 @@
   <section on:click={handleClick}>
     <form on:click|stopPropagation={ () => {} } on:submit|preventDefault|stopPropagation={handleSubmit}>
       <div id='search-field' class='row'>
-        <SearchField on:value={handleSearchTerm} />
+        <SearchField on:value={handleSearchTerm} {searchHint} />
       </div>
       <div id='search-parameters' class='row'>
-        <SearchParameters />
+        <SearchParameters on:parameters={handleSearchParameters} />
       </div>
     </form>
   </section>
