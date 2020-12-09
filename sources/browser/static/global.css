@@ -1,5 +1,11 @@
+@font-face {
+  font-family: "ETCTrispaceVariable";
+  src: url("/fonts/ETCTrispaceVariable.woff2") format("woff2");
+}
+
 :root {
   --body-background-color: hsl(0, 0%, 100%);
+  --font-family: "ETCTrispaceVariable";
 }
 
 html,
@@ -16,4 +22,12 @@ main {
 
   width: 100%;
   height: 100%;
+}
+
+body {
+  font-family: var(--font-family);
+}
+
+label {
+  font-family: system-ui;
 }

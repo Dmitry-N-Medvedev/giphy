@@ -13,7 +13,7 @@
 <style>
   svg {
     display: flex;
-    width: 3rem;
+    width: 1.75rem;
 
     cursor: pointer;
   }
