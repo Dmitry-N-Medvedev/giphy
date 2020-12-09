@@ -12,12 +12,13 @@
   export let show = false;
 
   let uiChannel = null;
-  let searchTerm = null;
+  let searchTerm = '';
   let searchParameters = {
     pageSize: null,
     itemType: null,
   };
   let searchHint = 'type in search terms';
+  let shouldUpdateSearchHint = false;
 
   const handleClick = () => {
     uiChannel.postMessage(Object.freeze({
@@ -26,7 +27,7 @@
   };
 
   const handleSubmit = () => {
-    if (searchTerm !== null && searchTerm.length !== 0) {
+    if (searchTerm.length !== 0) {
       console.debug('handleSubmit', searchTerm);
     }
   };
@@ -44,8 +45,18 @@
     searchParameters = searchParameters;
   };
 
-  $: if (Object.values(searchParameters).some((value) => value === null) === false && searchTerm !== null) {
-    searchHint = `show me ${searchParameters.pageSize} ${searchParameters.itemType}s of ${searchTerm}`;
+  $: isSearchParametersDefined = Object.values(searchParameters).findIndex((value) => value === null) === -1;
+
+  $: if (isSearchParametersDefined === true) {
+    if (searchTerm.length === 0) {
+      searchHint = 'type in search terms';
+    } else {
+      searchHint = `show me ${searchParameters.pageSize} ${searchParameters.itemType}s of ${searchTerm}`;
+    }
+  }
+
+  $: if (isSearchParametersDefined === false) {
+    searchHint = 'type in search terms';
   }
 
   onMount(() => {

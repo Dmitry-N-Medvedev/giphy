@@ -23,10 +23,7 @@
 
   const dispatch = createEventDispatcher();
 
-  $: if (value.length !== 0) {
-    dispatch('value', { value });
-  }
-
+  $: dispatch('value', { value });
   $: showSubmitButton = value.length !== 0;
 
   onMount(() => {
