@@ -42,6 +42,7 @@
     flex: 1 0 auto;
 
     position: relative;
+    pointer-events: none;
   }
   input {
     display: flex;

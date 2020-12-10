@@ -26,8 +26,21 @@ main {
 
 body {
   font-family: var(--font-family);
+  pointer-events: none;
+  user-select: none;
 }
 
 label {
   font-family: system-ui;
+}
+
+a,
+input,
+label {
+  pointer-events: all !important;
+}
+
+a,
+a:visited {
+  color: hsl(211, 100%, 59%);
 }

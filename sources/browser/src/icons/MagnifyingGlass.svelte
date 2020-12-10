@@ -19,7 +19,7 @@
   }
 
   svg > path {
-    pointer-events: none;
+    pointer-events: all;
   }
 </style>
 
