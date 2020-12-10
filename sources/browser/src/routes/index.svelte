@@ -7,40 +7,25 @@
     GifStore,
   } from '../stores/GifStore.mjs';
   import VideoComponent from '../components/VideoComponent.svelte';
+import Radio from '../components/Radio.svelte';
 
   let unsubscribe = null;
-  let images = [];
-
-  // const calcMaxDimensions = (items) => {
-  //   let size = 0;
-
-  //   for (const item of items.values()) {
-  //     const maxSize = Math.max(item.graphics.preview_gif.height, item.graphics.preview_gif.width);
-
-  //     if (maxSize > size) {
-  //       size = maxSize;
-  //     }
-  //   }
-
-  //   return size;
-  // };
+  let images = new Map();
 
   onMount(() => {
-    unsubscribe = GifStore.subscribe((items) => {
-      console.debug('GifStore changed', items);
+    unsubscribe = GifStore.subscribe((state) => {
+      console.debug('GifStore changed', state.items);
 
-      // const size = calcMaxDimensions(items);
+      // for (const [key, { graphics, title }] of state.items) {
+      //   images.push({
+      //     id: key,
+      //     title,
+      //     graphics,
+      //     // size,
+      //   });
+      // };
 
-      for (const [key, { graphics, title }] of items) {
-        images.push({
-          id: key,
-          title,
-          graphics,
-          // size,
-        });
-      };
-
-      images = images;
+      images = state.items;
     });
   });
 
@@ -66,7 +51,7 @@
 </svelte:head>
 
 <article>
-  {#each images as image (image.id)}
-    <VideoComponent id={image.id} src={image.graphics.looping.mp4} poster={image.graphics['480w_still'].url} />
+  {#each [...images.entries()] as [key, value] (key)}
+    <VideoComponent id={key} src={value.video} poster={value.poster} />
   {/each}
 </article>
