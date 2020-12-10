@@ -11,6 +11,7 @@
     BroadcastChannelNames,
   } from '../common/constants/BroadcastChannelNames.mjs';
 
+  let articleContainer = null;
   let unsubscribe = null;
   let images = new Map();
   let loadMoreComponent = null;
@@ -35,16 +36,14 @@
     });
   });
 
-  $: if (loadMoreComponent && images.size > 0) {
-    if (intersectionObserver === null) {
-      intersectionObserver = new IntersectionObserver(handleIntersection, {
-        root: null,
-        rootMargin: '0px',
-        threshold: 0.0,
-      });
+  $: if (loadMoreComponent && images.size > 0 && intersectionObserver === null) {
+    intersectionObserver = new IntersectionObserver(handleIntersection, {
+      root: null,
+      rootMargin: '0px',
+      threshold: 0.0,
+    });
 
-      intersectionObserver.observe(loadMoreComponent);
-    }
+    intersectionObserver.observe(loadMoreComponent);
   }
 
   onDestroy(() => {
@@ -88,12 +87,13 @@
   <title>Giphy Browser</title>
 </svelte:head>
 
-<article>
-  {#each [...images.entries()] as [id, O], index (id)}
+<article bind:this={articleContainer}>
+  {#each [...images.entries()] as [id, O] (id)}
     <VideoComponent {id} src={O.video} poster={O.poster} />
+  {:else}
+    &nbsp;
   {/each}
 </article>
 
-{#if images.size > 0}
-  <div class='load-more' bind:this={loadMoreComponent}>&nbsp;</div>
-{/if}
+<div class='load-more' bind:this={loadMoreComponent}>&nbsp;</div>
+

@@ -79,10 +79,6 @@
   });
   
   onDestroy(() => {
-    if (intersectionObserver) {
-      intersectionObserver.disconnect();
-    }
-
     if (videoChannel) {
       videoChannel.removeEventListener('message', handleVideoMessage);
       videoChannel.close();

@@ -29,6 +29,12 @@ export class ApiService {
   }
 
   async search({ searchTerm, searchParameters: { pageSize, itemType } }) {
+    if (this.#searchOptions.searchTerm !== searchTerm || this.#searchOptions.type !== itemType) {
+      this.#dataChannel.postMessage({
+        type: 'clear',
+      });
+    }
+
     this.#searchOptions = Object.assign(Object.create(null), {
       limit: pageSize,
       offset: 0,
@@ -44,10 +50,6 @@ export class ApiService {
       type: itemType,
       payload: {
         data: gifs,
-        // setting: {
-        //   searchTerm,
-        //   searchOptions: this.#searchOptions,
-        // }
       },
     });
   }
@@ -63,10 +65,6 @@ export class ApiService {
       type: this.#searchOptions.type,
       payload: {
         data: gifs,
-        // setting: {
-        //   searchTerm: this.#searchOptions.searchTerm,
-        //   searchOptions: this.#searchOptions,
-        // }
       },
     });
   }

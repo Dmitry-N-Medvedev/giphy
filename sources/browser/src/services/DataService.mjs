@@ -17,7 +17,14 @@ export class DataService {
   }
 
   async handleDataMessage ({ data: { type, payload }}) {
-    GifStore.add(payload);
+    switch (type) {
+      case 'clear': {
+        return GifStore.clear();
+      }
+      default: {
+        return GifStore.add(payload);
+      }
+    }
   }
 
   destructor() {

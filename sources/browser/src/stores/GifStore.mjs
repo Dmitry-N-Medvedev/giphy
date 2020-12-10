@@ -30,7 +30,6 @@ const createGifStore = () => {
       return state;
     }),
     clear: () => set({
-      query: {},
       items: (new Map()),
     }),
   };
