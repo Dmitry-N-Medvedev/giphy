@@ -25,7 +25,7 @@ The project will be manually reviewed and scored by the team according to the fo
 ## Notes
 
 1. Instead of the ReactJs the [Svelte](https://svelte.dev/) will be used.
-2. idea what individual GIFs mean in this case. Graphics returned for each item contains URLs of the same item in different formats and geometry.
+2. I have no idea what individual GIFs mean in this case. Graphics returned for each item contains URLs of the same item in different formats and geometry.
 
 ## How to see it in action
 
