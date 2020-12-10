@@ -10,31 +10,64 @@ export class ApiService {
   #dataChannel = null;
   #giphyFetch = null;
   #giphyApiKey = null;
+  #searchOptions = {
+    lang: 'en',
+    sort: 'relevant',
+    limit: 0,
+    offset: 0,
+    type: null,
+    searchTerm: null,
+  };
 
   constructor() {
     this.#apiChannel = new BroadcastChannel(BroadcastChannelNames.api);
     this.#dataChannel = new BroadcastChannel(BroadcastChannelNames.data);
 
     this.messageHandler = this.messageHandler.bind(this);
+    this.search = this.search.bind(this);
+    this.nextPage = this.nextPage.bind(this);
   }
 
   async search({ searchTerm, searchParameters: { pageSize, itemType } }) {
-    console.debug(`${this.constructor.name}.search`, searchTerm, pageSize, itemType);
-
-    const searchOptions = Object.freeze({
-      lang: 'en',
-      sort: 'relevant',
+    this.#searchOptions = Object.assign(Object.create(null), {
       limit: pageSize,
       offset: 0,
       type: itemType,
+      searchTerm,
     });
+
     const {
       data: gifs
-    } = await this.#giphyFetch.search(searchTerm, searchOptions);
+    } = await this.#giphyFetch.search(searchTerm, this.#searchOptions);
 
     this.#dataChannel.postMessage({
       type: itemType,
-      payload: gifs,
+      payload: {
+        data: gifs,
+        // setting: {
+        //   searchTerm,
+        //   searchOptions: this.#searchOptions,
+        // }
+      },
+    });
+  }
+
+  async nextPage() {
+    this.#searchOptions.offset += this.#searchOptions.limit;
+
+    const {
+      data: gifs
+    } = await this.#giphyFetch.search(this.#searchOptions.searchTerm, this.#searchOptions);
+
+    this.#dataChannel.postMessage({
+      type: this.#searchOptions.type,
+      payload: {
+        data: gifs,
+        // setting: {
+        //   searchTerm: this.#searchOptions.searchTerm,
+        //   searchOptions: this.#searchOptions,
+        // }
+      },
     });
   }
 
@@ -49,6 +82,9 @@ export class ApiService {
     switch (type) {
       case 'search': {
         return this.search(payload);
+      }
+      case 'next-page': {
+        return this.nextPage();
       }
       default: {
         console.debug('unknown message type:', message);

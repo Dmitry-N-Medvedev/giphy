@@ -3,7 +3,6 @@ import {
 } from 'svelte/store';
 
 const STATE = {
-  query: {},
   items: (new Map()),
 };
 
@@ -16,10 +15,8 @@ const createGifStore = () => {
 
   return {
     subscribe,
-    add: (items) => update((state) => {
-      console.debug('GifStore.add', state, items);
-
-      items.forEach((item) => {
+    add: (payload) => update((state) => {
+      payload.data.forEach((item) => {
         state.items.set(
           item.id,
           {
