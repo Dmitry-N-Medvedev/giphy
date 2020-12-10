@@ -12,7 +12,7 @@
   export let segment;
 
   let uiChannel = null;
-  let showSearchForm = true;
+  let showSearchForm = false;
 
   const handleUiChannelMessage = (event) => {
     const {
