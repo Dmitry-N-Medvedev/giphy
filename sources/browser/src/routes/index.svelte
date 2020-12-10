@@ -7,29 +7,59 @@
     GifStore,
   } from '../stores/GifStore.mjs';
   import VideoComponent from '../components/VideoComponent.svelte';
-import Radio from '../components/Radio.svelte';
+  import {
+    BroadcastChannelNames,
+  } from '../common/constants/BroadcastChannelNames.mjs';
 
   let unsubscribe = null;
   let images = new Map();
+  let loadMoreComponent = null;
+  let apiChannel = null;
+  let intersectionObserver = null;
+
+  const handleIntersection = (entries, observer) => {
+    for (const entry of entries) {
+      if (entry.isIntersecting === true) {
+        apiChannel.postMessage({
+          type: 'next-page',
+        });
+      }
+    }
+  };
 
   onMount(() => {
+    apiChannel = new BroadcastChannel(BroadcastChannelNames.api);
+
     unsubscribe = GifStore.subscribe((state) => {
-      console.debug('GifStore changed', state.items);
-
-      // for (const [key, { graphics, title }] of state.items) {
-      //   images.push({
-      //     id: key,
-      //     title,
-      //     graphics,
-      //     // size,
-      //   });
-      // };
-
       images = state.items;
     });
   });
 
+  $: if (loadMoreComponent && images.size > 0) {
+    if (intersectionObserver === null) {
+      intersectionObserver = new IntersectionObserver(handleIntersection, {
+        root: null,
+        rootMargin: '0px',
+        threshold: 0.0,
+      });
+
+      intersectionObserver.observe(loadMoreComponent);
+    }
+  }
+
   onDestroy(() => {
+    if (intersectionObserver) {
+      intersectionObserver.disconnect();
+
+      intersectionObserver = null;
+    }
+
+    if (apiChannel) {
+      apiChannel.close();
+
+      apiChannel = null;
+    }
+
     if (unsubscribe) {
       unsubscribe();
     }
@@ -39,10 +69,18 @@ import Radio from '../components/Radio.svelte';
 <style>
   article {
     display: grid;
-    grid-template-columns: repeat(6, 1fr);
-    grid-auto-rows: 1fr;
+    grid-template-columns: repeat(auto-fill, minmax(500px, 1fr));
+    grid-auto-rows: minmax(500px, 1fr);
     grid-gap: max(0.25vw, 0.25vh);
     padding: max(1vh, 1vw);
+  }
+
+  .load-more {
+    display: block;
+    width: 100%;
+    height: 1px;
+
+    visibility: hidden;
   }
 </style>
 
@@ -51,7 +89,11 @@ import Radio from '../components/Radio.svelte';
 </svelte:head>
 
 <article>
-  {#each [...images.entries()] as [key, value] (key)}
-    <VideoComponent id={key} src={value.video} poster={value.poster} />
+  {#each [...images.entries()] as [id, O], index (id)}
+    <VideoComponent {id} src={O.video} poster={O.poster} />
   {/each}
 </article>
+
+{#if images.size > 0}
+  <div class='load-more' bind:this={loadMoreComponent}>&nbsp;</div>
+{/if}

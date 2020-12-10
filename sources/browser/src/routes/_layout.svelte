@@ -18,7 +18,6 @@
     const {
       data,
     } = event;
-    console.debug('[_layout].handleUiChannelMessage:', event, data);
 
     switch (data.type) {
       case 'showSearchForm': {
@@ -32,6 +31,8 @@
         break;
       }
       default: {
+        console.debug('[_layout].handleUiChannelMessage. Unknown event type:', event, data);
+
         break;
       }
     }
