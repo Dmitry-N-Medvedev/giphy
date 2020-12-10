@@ -73,5 +73,12 @@
   
   <ol>
     <li>Instead of the ReactJs the <a href='https://svelte.dev/' target='_blank'>Svelte</a> will be used.</li>
+    <li>
+      <cite>Clicking on a thumbnail should launch a lightbox-style modal view that allows the user to browse through individual GIFs as a slideshow.</cite>
+
+      <p>
+        No idea what individual GIFs mean in this case. Graphics returned for each item contains URLs of the same item in different formats and geometry.
+      </p>
+    </li>
   </ol>
 </article>
