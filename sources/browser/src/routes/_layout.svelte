@@ -14,6 +14,8 @@
   let uiChannel = null;
   let showSearchForm = true;
 
+  $: showSearchForm = segment !== 'about';
+
   const handleUiChannelMessage = (event) => {
     const {
       data,
