@@ -12,13 +12,13 @@
   export let show = false;
 
   let uiChannel = null;
+  let apiChannel = null;
   let searchTerm = '';
   let searchParameters = {
     pageSize: null,
     itemType: null,
   };
   let searchHint = 'type in search terms';
-  let shouldUpdateSearchHint = false;
 
   const handleClick = () => {
     uiChannel.postMessage(Object.freeze({
@@ -28,7 +28,16 @@
 
   const handleSubmit = () => {
     if (searchTerm.length !== 0) {
-      console.debug('handleSubmit', searchTerm);
+      uiChannel.postMessage(Object.freeze({
+        type: 'hideSearchForm',
+      }));
+      apiChannel.postMessage({
+        type: 'search',
+        payload: {
+          searchTerm,
+          searchParameters,
+        },
+      });
     }
   };
 
@@ -51,7 +60,7 @@
     if (searchTerm.length === 0) {
       searchHint = 'type in search terms';
     } else {
-      searchHint = `show me ${searchParameters.pageSize} ${searchParameters.itemType}s of ${searchTerm}`;
+      searchHint = `show me ${searchParameters.pageSize} ${searchParameters.itemType} of ${searchTerm}`;
     }
   }
 
@@ -61,6 +70,7 @@
 
   onMount(() => {
     uiChannel = new BroadcastChannel(BroadcastChannelNames.ui);
+    apiChannel = new BroadcastChannel(BroadcastChannelNames.api);
   });
 
   onDestroy(() => {
@@ -68,6 +78,12 @@
       uiChannel.close();
 
       uiChannel = null;
+    }
+
+    if (apiChannel) {
+      apiChannel.close();
+
+      apiChannel = null;
     }
   });
 </script>

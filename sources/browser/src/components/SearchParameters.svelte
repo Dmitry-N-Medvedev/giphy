@@ -6,8 +6,8 @@
   import Select from './Select.svelte';
   import Radio from './Radio.svelte';
 
-  const itemsPerPage = Object.freeze([25, 50]);
-  const radioValues = Object.freeze(['gif', 'sticker']);
+  const itemsPerPage = Object.freeze([25, 50, 150]);
+  const radioValues = Object.freeze(['gifs', 'stickers']);
 
   let pageSize = null;
   let itemType = null;
