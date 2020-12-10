@@ -38,4 +38,4 @@ The project will be manually reviewed and scored by the team according to the fo
 
 ## PS
 
-* I will be more than happy to answer any of your questions regarding this project
+* I will be more than happy to answer any of your questions regarding this project here: [discussions](https://github.com/Dmitry-N-Medvedev/giphy/discussions)
