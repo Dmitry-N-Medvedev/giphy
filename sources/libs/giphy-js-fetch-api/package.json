@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "description": "[lib] giphy js-fetch-api",
   "engines": {
-    "node": "=15.3.0",
+    "node": "=15.4.0",
     "pnpm": "=5.13.5"
   },
   "engineStrict": true,
