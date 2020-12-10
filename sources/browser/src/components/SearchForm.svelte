@@ -102,6 +102,7 @@
     bottom: 0;
 
     backdrop-filter: blur(3px);
+    pointer-events: all;
   }
 
   section > form {
