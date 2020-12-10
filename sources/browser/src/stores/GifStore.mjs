@@ -17,8 +17,6 @@ const createGifStore = () => {
     subscribe,
     add: (payload) => update((state) => {
       payload.data.forEach((item) => {
-        console.debug(item.images);
-
         state.items.set(
           item.id,
           {
