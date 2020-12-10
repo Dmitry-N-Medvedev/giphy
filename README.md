@@ -2,8 +2,7 @@
 
 [![Build Status](https://travis-ci.com/Dmitry-N-Medvedev/giphy.svg?branch=main)](https://travis-ci.com/Dmitry-N-Medvedev/giphy)
 [![codecov](https://codecov.io/gh/Dmitry-N-Medvedev/giphy/branch/main/graph/badge.svg?token=XAUREOB4X3)](https://codecov.io/gh/Dmitry-N-Medvedev/giphy)
-[![Repo Status](https://apis.deepjyoti30.dev/repostatus/badge?repo=Dmitry-N-Medvedev/giphy&style=for-the-badge)](https://github.com/Dmitry-N-Medvedev/giphy)
-<!-- https://apis.deepjyoti30.dev/repostatus/badge?repo=Dmitry-N-Medvedev/giphy&style=for-the-badge -->
+[![Repo Status](https://apis.deepjyoti30.dev/repostatus/badge?repo=Dmitry-N-Medvedev/giphy&style=flat)](https://github.com/Dmitry-N-Medvedev/giphy)
 
 The task is to create a single-page web application that leverages data from the [Giphy API](https://github.com/Giphy/GiphyAPI ).
 
