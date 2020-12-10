@@ -115,12 +115,12 @@
     ;
     grid-gap: max(0.25vw, 0.25vh);
 
-    width: 30vw;
+    width: 40vw;
     height: fit-content;
 
-    padding: min(1vh, 1vw);
+    padding: 6vh 1vw;
 
-    background-color: transparent;
+    background-color: var(--body-background-color);
   }
 
   .row {
