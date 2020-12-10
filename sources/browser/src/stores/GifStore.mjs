@@ -2,7 +2,10 @@ import {
   writable,
 } from 'svelte/store';
 
-let STATE = new Map();
+const STATE = {
+  query: {},
+  items: (new Map()),
+};
 
 const createGifStore = () => {
   const {
@@ -13,19 +16,26 @@ const createGifStore = () => {
 
   return {
     subscribe,
-    add: (items) => update((n) => {
-      console.debug('GifStore.add', n, items);
+    add: (items) => update((state) => {
+      console.debug('GifStore.add', state, items);
 
       items.forEach((item) => {
-        n.set(item.id, {
-          graphics: item.images,
-          title: item.title,
-        });
+        state.items.set(
+          item.id,
+          {
+            poster: item.images['480w_still'].url,
+            video: item.images.looping.mp4,
+            title: item.title,
+          },
+        );
       });
 
-      return n;
+      return state;
     }),
-    clear: () => set(new Set()),
+    clear: () => set({
+      query: {},
+      items: (new Map()),
+    }),
   };
 };
 
