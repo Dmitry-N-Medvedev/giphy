@@ -1,7 +1,7 @@
 <script>
   import {
     fade,
-  } from 'svelte/transition';
+  } from 'svelte/transition/index.js';
   import {
     onMount,
     createEventDispatcher,

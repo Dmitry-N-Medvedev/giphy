@@ -33,7 +33,8 @@
         break;
       }
       default: {
-        console.debug('[_layout].handleUiChannelMessage. Unknown event type:', event, data);
+        // eslint-disable-next-line no-console
+        console.warn('[_layout].handleUiChannelMessage. Unknown event type:', event, data);
 
         break;
       }

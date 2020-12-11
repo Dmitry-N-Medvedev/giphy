@@ -7,7 +7,6 @@
     BroadcastChannelNames,
   } from '../common/constants/BroadcastChannelNames.mjs';
 
-
   export let id;
   export let src;
   export let poster;
@@ -21,6 +20,7 @@
   let videoChannel = null;
 
   const handleIntersection = (entries, observer) => {
+    // eslint-disable-next-line no-restricted-syntax
     for (const entry of entries) {
       if (entry.isIntersecting === true && observer) {
         observer.disconnect();
@@ -31,7 +31,7 @@
     }
   };
 
-  const handleVideoClick = (event) => {
+  const handleVideoClick = () => {
     if (videoElement.paused === true) {
       videoChannel.postMessage({
         type: 'play',
@@ -47,11 +47,11 @@
     }
   };
 
-  const handleCanPlayThrough = (event) => {
+  const handleCanPlayThrough = () => {
     isVideoReady = true;
   };
 
-  const handleVideoMessage = ({ data: { type, payload }}) => {
+  const handleVideoMessage = ({ data: { type, payload } }) => {
     switch (type) {
       case 'play': {
         if (isPlaying === true) {
@@ -62,7 +62,10 @@
         break;
       }
       default: {
-        console.debug('unknown message type', type, payload);
+        // eslint-disable-next-line no-console
+        console.warn('unknown message type', type, payload);
+
+        break;
       }
     }
   };

@@ -1,6 +1,6 @@
 import {
   writable,
-} from 'svelte/store';
+} from 'svelte/store/index.js';
 
 const STATE = {
   items: (new Map()),

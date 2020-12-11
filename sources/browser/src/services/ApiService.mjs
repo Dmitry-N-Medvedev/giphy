@@ -6,22 +6,22 @@ import {
 const API_KEY_URL = '/api/get-api-key';
 
 export class ApiService {
-  #apiChannel = null;
-  #dataChannel = null;
-  #giphyFetch = null;
-  #giphyApiKey = null;
-  #searchOptions = {
-    lang: 'en',
-    sort: 'relevant',
-    limit: 0,
-    offset: 0,
-    type: null,
-    searchTerm: null,
-  };
-
   constructor() {
-    this.#apiChannel = new BroadcastChannel(BroadcastChannelNames.api);
-    this.#dataChannel = new BroadcastChannel(BroadcastChannelNames.data);
+    this.apiChannel = null;
+    this.dataChannel = null;
+    this.giphyFetch = null;
+    this.giphyApiKey = null;
+    this.searchOptions = {
+      lang: 'en',
+      sort: 'relevant',
+      limit: 0,
+      offset: 0,
+      type: null,
+      searchTerm: null,
+    };
+
+    this.apiChannel = new BroadcastChannel(BroadcastChannelNames.api);
+    this.dataChannel = new BroadcastChannel(BroadcastChannelNames.data);
 
     this.messageHandler = this.messageHandler.bind(this);
     this.search = this.search.bind(this);
@@ -29,13 +29,13 @@ export class ApiService {
   }
 
   async search({ searchTerm, searchParameters: { pageSize, itemType } }) {
-    if (this.#searchOptions.searchTerm !== searchTerm || this.#searchOptions.type !== itemType) {
-      this.#dataChannel.postMessage({
+    if (this.searchOptions.searchTerm !== searchTerm || this.searchOptions.type !== itemType) {
+      this.dataChannel.postMessage({
         type: 'clear',
       });
     }
 
-    this.#searchOptions = Object.assign(Object.create(null), {
+    this.searchOptions = Object.assign(Object.create(null), {
       limit: pageSize,
       offset: 0,
       type: itemType,
@@ -43,10 +43,10 @@ export class ApiService {
     });
 
     const {
-      data: gifs
-    } = await this.#giphyFetch.search(searchTerm, this.#searchOptions);
+      data: gifs,
+    } = await this.giphyFetch.search(searchTerm, this.searchOptions);
 
-    this.#dataChannel.postMessage({
+    this.dataChannel.postMessage({
       type: itemType,
       payload: {
         data: gifs,
@@ -55,14 +55,14 @@ export class ApiService {
   }
 
   async nextPage() {
-    this.#searchOptions.offset += this.#searchOptions.limit;
+    this.searchOptions.offset += this.searchOptions.limit;
 
     const {
-      data: gifs
-    } = await this.#giphyFetch.search(this.#searchOptions.searchTerm, this.#searchOptions);
+      data: gifs,
+    } = await this.giphyFetch.search(this.searchOptions.searchTerm, this.searchOptions);
 
-    this.#dataChannel.postMessage({
-      type: this.#searchOptions.type,
+    this.dataChannel.postMessage({
+      type: this.searchOptions.type,
       payload: {
         data: gifs,
       },
@@ -85,32 +85,33 @@ export class ApiService {
         return this.nextPage();
       }
       default: {
-        console.debug('unknown message type:', message);
+        // eslint-disable-next-line no-console
+        console.warn('unknown message type:', message);
 
-        break;
+        return undefined;
       }
     }
   }
 
   async start() {
-    this.#giphyApiKey = (await (await fetch(API_KEY_URL)).json()).key;
-    this.#giphyFetch = new GiphyFetchMod.GiphyFetch(this.#giphyApiKey);
+    this.giphyApiKey = (await (await fetch(API_KEY_URL)).json()).key;
+    this.giphyFetch = new GiphyFetchMod.GiphyFetch(this.giphyApiKey);
 
-    this.#apiChannel.addEventListener('message', this.messageHandler);
+    this.apiChannel.addEventListener('message', this.messageHandler);
   }
 
   destructor() {
-    if (this.#apiChannel) {
-      this.#apiChannel.removeEventListener('message', this.messageHandler);
-      this.#apiChannel.close();
+    if (this.apiChannel) {
+      this.apiChannel.removeEventListener('message', this.messageHandler);
+      this.apiChannel.close();
 
-      this.#apiChannel = null;
+      this.apiChannel = null;
     }
 
-    if (this.#dataChannel) {
-      this.#dataChannel.close();
+    if (this.dataChannel) {
+      this.dataChannel.close();
 
-      this.#dataChannel = null;
+      this.dataChannel = null;
     }
   }
 }

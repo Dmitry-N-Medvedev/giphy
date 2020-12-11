@@ -6,17 +6,16 @@ import {
 } from '../stores/GifStore.mjs';
 
 export class DataService {
-  #dataChannel = null;
-
   constructor() {
-    this.#dataChannel = new BroadcastChannel(BroadcastChannelNames.data);
+    this.dataChannel = new BroadcastChannel(BroadcastChannelNames.data);
 
     this.handleDataMessage = this.handleDataMessage.bind(this);
 
-    this.#dataChannel.addEventListener('message', this.handleDataMessage);
+    this.dataChannel.addEventListener('message', this.handleDataMessage);
   }
 
-  async handleDataMessage ({ data: { type, payload }}) {
+  // eslint-disable-next-line class-methods-use-this
+  async handleDataMessage({ data: { type, payload } }) {
     switch (type) {
       case 'clear': {
         return GifStore.clear();
@@ -28,11 +27,11 @@ export class DataService {
   }
 
   destructor() {
-    if (this.#dataChannel) {
-      this.#dataChannel.removeEventListener('message', this.handleDataMessage);
-      this.#dataChannel.close();
+    if (this.dataChannel) {
+      this.dataChannel.removeEventListener('message', this.handleDataMessage);
+      this.dataChannel.close();
 
-      this.#dataChannel = null;
+      this.dataChannel = null;
     }
   }
 }
