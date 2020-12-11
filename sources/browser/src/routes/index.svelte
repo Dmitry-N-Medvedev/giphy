@@ -18,7 +18,8 @@
   let apiChannel = null;
   let intersectionObserver = null;
 
-  const handleIntersection = (entries, observer) => {
+  const handleIntersection = (entries) => {
+    // eslint-disable-next-line no-restricted-syntax
     for (const entry of entries) {
       if (entry.isIntersecting === true) {
         apiChannel.postMessage({

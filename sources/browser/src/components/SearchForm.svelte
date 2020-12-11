@@ -1,12 +1,16 @@
 <script>
+  // eslint-disable-next-line import/first
   import {
     onMount,
     onDestroy,
   } from 'svelte';
+  // eslint-disable-next-line import/first
   import {
     BroadcastChannelNames,
   } from '../common/constants/BroadcastChannelNames.mjs';
+  // eslint-disable-next-line import/first
   import SearchField from './SearchField.svelte';
+  // eslint-disable-next-line import/first
   import SearchParameters from './SearchParameters.svelte';
 
   export let show = false;
@@ -45,7 +49,7 @@
     searchTerm = value;
   };
 
-  const handleSearchParameters = ({ detail: { pageSize, itemType }}) => {
+  const handleSearchParameters = ({ detail: { pageSize, itemType } }) => {
     searchParameters = Object.freeze({
       pageSize,
       itemType,
@@ -54,7 +58,9 @@
     searchParameters = searchParameters;
   };
 
-  $: isSearchParametersDefined = Object.values(searchParameters).findIndex((value) => value === null) === -1;
+  $: isSearchParametersDefined = Object.values(searchParameters).findIndex(
+    (value) => value === null,
+  ) === -1;
 
   $: if (isSearchParametersDefined === true) {
     if (searchTerm.length === 0) {
