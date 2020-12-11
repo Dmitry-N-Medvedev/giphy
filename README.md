@@ -33,8 +33,9 @@ The project will be manually reviewed and scored by the team according to the fo
 2. install the NodeJs according to the version defined in [package.json](package.json)
 3. install the [pnpm](https://pnpm.js.org/en/installation) as a technically better alternative to npm/yarn/whatever
 4. navigate to [sources/browser](sources/browser)
-5. in the terminal type the following command: `pnpm run dev`
-6. watch the terminal for the [Listening on http://localhost:3000](http://localhost:3000) - Command + Click the link to view the app in the default browser
+5. rename the [.env-template](sources/browser/.env-template) to `.env` and change the `GIPHY_API_KEY` to a proper value
+6. in the terminal type the following command: `pnpm run dev`
+7. watch the terminal for the [Listening on http://localhost:3000](http://localhost:3000) - Command + Click the link to view the app in the default browser
 
 ## PS
 
